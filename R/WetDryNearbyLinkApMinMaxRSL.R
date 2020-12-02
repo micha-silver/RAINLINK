@@ -89,7 +89,7 @@ WetDryNearbyLinkApMinMaxRSL <- function(Data,CoorSystemInputData=NULL,MinHoursPm
 		coordinates(Coor) <- c("x", "y")
 		proj4string(Coor) <- CRS(CoorSystemInputData) 
 		CRS.latlon <- CRS("+proj=longlat +ellps=WGS84")
-		Coor.latlon <- spTransform(Coor, CRS.lotlon)
+		Coor.latlon <- spTransform(Coor, CRS.latlon)
 		XMiddle <- (Coor.latlon$x[1] + Coor.latlon$x[2]) / 2
 		YMiddle <- (Coor.latlon$y[1] + Coor.latlon$y[2]) / 2
 	} else {
@@ -99,13 +99,14 @@ WetDryNearbyLinkApMinMaxRSL <- function(Data,CoorSystemInputData=NULL,MinHoursPm
 	}
 	
 	# Set projection string
-	projstring <- paste("+proj=aeqd +a=6378.137 +b=6356.752 +R_A +lat_0=",YMiddle,
-	" +lon_0=",XMiddle," +x_0=0 +y_0=0",sep="")
+	projstring <- paste("+proj=aeqd +R_A +lat_0=", YMiddle,
+                    	" +lon_0=", XMiddle, 
+                      " +x_0=0 +y_0=0 +ellps=WGS84",sep="")
 	
   	# Set link IDs and time intervals
 	Data$ID <- as.character(Data$ID)
-   	IDLink <- unique(Data$ID)
-   	N_links <- length(IDLink)
+  IDLink <- unique(Data$ID)
+  N_links <- length(IDLink)
 	t <- sort(unique(Data$DateTime))
 	N_t <- length(t)
 	
@@ -126,15 +127,15 @@ WetDryNearbyLinkApMinMaxRSL <- function(Data,CoorSystemInputData=NULL,MinHoursPm
 	# Initialize arrays and vectors
 	PminLink <- array(NA, c(N_t, N_links))
 	array_ind <- array(NA, c(N_t, N_links))
-   	XStartLink <- rep(NA, N_links)
+  XStartLink <- rep(NA, N_links)
 	YStartLink <- rep(NA, N_links)
 	XEndLink <- rep(NA, N_links)
 	YEndLink <- rep(NA, N_links)
 	LengthLink <- rep(NA, N_links)
 	
 	# Loop over all links for coordinate transformation and putting data in an array
-   	for (p in 1 : N_links)
-   	{
+  for (p in 1 : N_links)
+  {
 		# Find indices corresponding to this link
 		Cond <- which(Data$ID == IDLink[p])
 		

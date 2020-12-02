@@ -94,9 +94,9 @@ Interpolation <- function(Data,CoorSystemInputData=NULL,idp=2.0,IntpMethod="OK",
  
 
 	# Construct projection string for Azimuthal Equidistant Cartesian coordinate system:
-	projstring <- paste("+proj=aeqd +a=6378.137 +b=6356.752 +R_A +lat_0=",YMiddle,
-	" +lon_0=",XMiddle," +x_0=0 +y_0=0",sep="")
-
+  projstring <- paste("+proj=aeqd +R_A +lat_0=", YMiddle,
+                      " +lon_0=", XMiddle,
+                      " +x_0=0 +y_0=0 +ellps=WGS84",sep="")
 
 	# Convert to a Cartesian coordinate system 
 	# (easting and northing of grid; m) of start of link, easting and northing of end of link, 

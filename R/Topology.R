@@ -168,17 +168,19 @@ Topology <- function(Data,CoorSystemInputData=NULL,FigNameBarplotAngle,FigNameBa
 		CoorSystemInputData <- "+proj=longlat +ellps=WGS84"
 	}
 	# Construct projection string for Azimuthal Equidistant Cartesian coordinate system:
-	projstring <- paste("+proj=aeqd +a=6378.137 +b=6356.752 +R_A +lat_0=",YMiddle,
-	" +lon_0=",XMiddle," +x_0=0 +y_0=0",sep="")
+  projstring <- paste("+proj=aeqd +R_A +lat_0=", YMiddle,
+                      " +lon_0=", XMiddle,
+                      " +x_0=0 +y_0=0 +ellps=WGS84",sep="")
+
 	Data$ID <- as.character(Data$ID)
-   	IDLink <- unique(Data$ID)
-   	N_links <- length(IDLink)
-   	XStart <- rep(NA, length(Data$ID))
+  IDLink <- unique(Data$ID)
+  N_links <- length(IDLink)
+  XStart <- rep(NA, length(Data$ID))
 	YStart <- rep(NA, length(Data$ID))
 	XEnd <- rep(NA, length(Data$ID))
 	YEnd <- rep(NA, length(Data$ID))
 	# Loop over all links for coordinate transformation and putting data in an array
-   	for (p in 1 : N_links)
+  for (p in 1 : N_links)
    	{
 		# Find indices corresponding to this link
 		Cond <- which(Data$ID == IDLink[p])
